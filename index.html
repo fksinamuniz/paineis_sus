@@ -102,6 +102,30 @@
                 icon: "syringe"
             },
             {
+                id: 17,
+                title: "Painel Poliomielite 2024",
+                description: "Monitoramento da Campanha Nacional de Vacinação contra a Poliomielite.",
+                url: "https://infoms.saude.gov.br/extensions/SEIDIGI_DEMAS_POLIOMIELITE_2024/SEIDIGI_DEMAS_POLIOMIELITE_2024.html",
+                category: "Imunização",
+                icon: "syringe"
+            },
+            {
+                id: 18,
+                title: "Painel Maternidades 2020",
+                description: "Prevenção da transmissão vertical de HIV, Hepatite B e Sífilis em maternidades.",
+                url: "https://app.powerbi.com/view?r=eyJrIjoiZWZiZTEyZTQtMmM3OC00ZDc2LWFkZTEtODU1NWYxMWQ4ZjYzIiwidCI6IjllZGM3Y2M2LTcyMWMtNDIwYi1iYWUxLTY5ZTQ1OGYyNDQ1NSJ9&pageName=ReportSectiona45f16999ed19b267634",
+                category: "Materno-Infantil",
+                icon: "baby"
+            },
+            {
+                id: 16,
+                title: "Mortalidade CID-10",
+                description: "Painel de Monitoramento da Mortalidade (DAENT/SVSA).",
+                url: "https://svs.aids.gov.br/daent/centrais-de-conteudos/paineis-de-monitoramento/mortalidade/cid10/",
+                category: "Mortalidade",
+                icon: "activity"
+            },
+            {
                 id: 2,
                 title: "Monitoramento Integrado HIV/AIDS",
                 description: "Indicadores do Cuidado Contínuo do HIV e da Aids (Power BI).",
@@ -224,9 +248,9 @@
 
         // Helper to render Icons
         function getIconClass(category) {
-            return category === 'Gestão' 
-                ? 'bg-orange-100 text-orange-600' 
-                : 'bg-blue-100 text-blue-600';
+            if (category === 'Gestão') return 'bg-orange-100 text-orange-600';
+            if (category === 'Materno-Infantil') return 'bg-pink-100 text-pink-600';
+            return 'bg-blue-100 text-blue-600';
         }
 
         // Render Functions
