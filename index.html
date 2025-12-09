@@ -1,11 +1,393 @@
-// Converter cada painel para Base64:
-const panelData = {
-  id: 1,
-  title: "Painel de Tuberculose",
-  description: "Descrição aqui",
-  category: "Tuberculose",
-  url: "https://link.com",
-  icon: "#color"
-};
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Painéis SUS</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
 
-const encrypted = btoa(JSON.stringify(panelData));
+    <style>
+        /* Custom smooth transition for hover effects */
+        .transition-all {
+            transition-property: all;
+            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+            transition-duration: 300ms;
+        }
+        /* Subtle pattern for the background */
+        body {
+            background-color: #f8fafc;
+            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+    </style>
+</head>
+<body class="font-sans text-slate-900 min-h-screen flex flex-col">
+
+    <!-- Header -->
+    <header class="bg-gradient-to-r from-blue-800 to-blue-600 text-white shadow-lg relative z-10">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
+                <div class="flex items-center gap-3">
+                    <div class="bg-white/20 p-3 rounded-2xl backdrop-blur-sm shadow-inner">
+                        <i data-lucide="layout-grid" width="32" height="32" class="text-white"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-3xl font-bold tracking-tight text-white">Portal de Painéis SUS</h1>
+                        <p class="text-blue-100 text-sm mt-1 font-medium">Central de Monitoramento e Inteligência de Dados</p>
+                    </div>
+                </div>
+                
+                <div class="w-full md:w-auto relative group">
+                    <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300 w-5 h-5 group-focus-within:text-blue-200 transition-colors"></i>
+                    <input 
+                        type="text" 
+                        id="searchInput"
+                        placeholder="Buscar painel..." 
+                        class="w-full md:w-80 pl-10 pr-4 py-2.5 rounded-full bg-blue-900/40 border border-blue-500/30 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-blue-900/60 transition-all shadow-sm"
+                    >
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full z-0">
+        
+        <!-- Categories -->
+        <div id="categoryContainer" class="flex flex-wrap gap-2 mb-10 justify-center md:justify-start">
+            <!-- Buttons will be injected here via JS -->
+        </div>
+
+        <!-- Grid -->
+        <div id="panelsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
+            <!-- Cards will be injected here via JS -->
+        </div>
+
+        <!-- Empty State (Hidden by default) -->
+        <div id="emptyState" class="hidden text-center py-20">
+            <div class="flex justify-center mb-4">
+                <div class="p-4 bg-slate-100 rounded-full">
+                    <i data-lucide="file-bar-chart" class="text-slate-400 w-12 h-12"></i>
+                </div>
+            </div>
+            <h3 class="text-xl font-semibold text-slate-700">Nenhum painel encontrado</h3>
+            <p class="text-slate-500 mt-2">Tente ajustar sua busca ou mudar a categoria selecionada.</p>
+        </div>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-200/60 bg-white/80 backdrop-blur-sm mt-auto">
+        <div class="max-w-7xl mx-auto px-4 py-8 text-center text-slate-500 text-sm">
+            <p class="font-medium mb-1">© <span id="year"></span> - Central Integradora de Painéis de Saúde Pública</p>
+            <p class="mb-4 text-slate-600">Desenvolvido por <strong class="text-slate-800">Frank Sinatra da Silva Muniz</strong></p>
+            <p class="text-xs text-slate-400 max-w-2xl mx-auto">Os links redirecionam para portais oficiais do Ministério da Saúde e parceiros. Este é um portal agregador para facilitar o acesso à informação.</p>
+        </div>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        // Data
+        const panels = [
+            {
+                id: 1,
+                title: "Painel de Tuberculose",
+                description: "Dados epidemiológicos e operacionais da tuberculose no Brasil (SVSA).",
+                url: "https://www.gov.br/saude/pt-br/composicao/svsa/cnie/painel-tuberculose",
+                category: "Tuberculose",
+                icon: "stethoscope"
+            },
+            {
+                id: 15,
+                title: "Vacinação - Calendário Nacional",
+                description: "Monitoramento da vacinação conforme Calendário Nacional (Residência).",
+                url: "https://infoms.saude.gov.br/extensions/SEIDIGI_DEMAS_VACINACAO_CALENDARIO_NACIONAL_RESIDENCIA/SEIDIGI_DEMAS_VACINACAO_CALENDARIO_NACIONAL_RESIDENCIA.html",
+                category: "Imunização",
+                icon: "shield-check"
+            },
+            {
+                id: 17,
+                title: "Painel Poliomielite 2024",
+                description: "Monitoramento da Campanha Nacional de Vacinação contra a Poliomielite.",
+                url: "https://infoms.saude.gov.br/extensions/SEIDIGI_DEMAS_POLIOMIELITE_2024/SEIDIGI_DEMAS_POLIOMIELITE_2024.html",
+                category: "Imunização",
+                icon: "baby"
+            },
+            {
+                id: 18,
+                title: "Painel Maternidades 2020",
+                description: "Prevenção da transmissão vertical de HIV, Hepatite B e Sífilis em maternidades.",
+                url: "https://app.powerbi.com/view?r=eyJrIjoiZWZiZTEyZTQtMmM3OC00ZDc2LWFkZTEtODU1NWYxMWQ4ZjYzIiwidCI6IjllZGM3Y2M2LTcyMWMtNDIwYi1iYWUxLTY5ZTQ1OGYyNDQ1NSJ9&pageName=ReportSectiona45f16999ed19b267634",
+                category: "HIV/AIDS",
+                icon: "baby"
+            },
+            {
+                id: 16,
+                title: "Mortalidade CID-10",
+                description: "Painel de Monitoramento da Mortalidade (DAENT/SVSA).",
+                url: "https://svs.aids.gov.br/daent/centrais-de-conteudos/paineis-de-monitoramento/mortalidade/cid10/",
+                category: "Mortalidade",
+                icon: "heart-pulse"
+            },
+            {
+                id: 19,
+                title: "Mortalidade Materna",
+                description: "Painel de Monitoramento da Mortalidade Materna (DAENT/SVSA).",
+                url: "https://svs.aids.gov.br/daent/centrais-de-conteudos/paineis-de-monitoramento/mortalidade/materna/",
+                category: "Mortalidade",
+                icon: "heart-crack"
+            },
+            {
+                id: 2,
+                title: "Monitoramento Integrado HIV/AIDS",
+                description: "Indicadores do Cuidado Contínuo do HIV e da Aids (Power BI).",
+                url: "http://antigo.aids.gov.br/pt-br/pub/painel-de-monitoramento-integrado-do-cuidado-do-hiv-e-da-aids-0",
+                category: "HIV/AIDS",
+                icon: "heart-handshake"
+            },
+            {
+                id: 3,
+                title: "Profilaxia Pré-Exposição (PrEP)",
+                description: "Monitoramento da dispensação e uso da PrEP no Brasil.",
+                url: "http://antigo.aids.gov.br/pt-br/painel-prep",
+                category: "HIV/AIDS",
+                icon: "pill"
+            },
+            {
+                id: 4,
+                title: "Profilaxia Pós-Exposição (PEP)",
+                description: "Dados sobre atendimentos e dispensação de PEP.",
+                url: "http://antigo.aids.gov.br/pt-br/painel-pep",
+                category: "HIV/AIDS",
+                icon: "pill"
+            },
+            {
+                id: 5,
+                title: "HIV durante a Pandemia COVID-19",
+                description: "Impacto da pandemia nos indicadores de HIV/AIDS.",
+                url: "http://antigo.aids.gov.br/pt-br/painel-covid-hiv", 
+                category: "HIV/AIDS",
+                icon: "virus"
+            },
+            {
+                id: 6,
+                title: "Autoteste HIV",
+                description: "Distribuição e resultados de autotestes de HIV.",
+                url: "http://antigo.aids.gov.br/pt-br/pub/2021/painel-de-autoteste-de-hiv",
+                category: "HIV/AIDS",
+                icon: "flask-conical"
+            },
+            {
+                id: 7,
+                title: "Monitoramento Clínico de HIV",
+                description: "Indicadores e dados básicos de acompanhamento clínico.",
+                url: "http://indicadoresclinicos.aids.gov.br/",
+                category: "HIV/AIDS",
+                icon: "clipboard-heart"
+            },
+            {
+                id: 8,
+                title: "Estratégia Viva Melhor Sabendo (VMS)",
+                description: "Monitoramento das ações de testagem e diagnóstico.",
+                url: "http://antigo.aids.gov.br/pt-br/pub/2017/painel-viva-melhor-sabendo",
+                category: "HIV/AIDS",
+                icon: "star"
+            },
+            {
+                id: 9,
+                title: "Monitoramento de Hepatites B e C",
+                description: "Vigilância epidemiológica das hepatites virais.",
+                url: "http://antigo.aids.gov.br/pt-br/pub/painel-de-monitoramento-de-hepatites-virais",
+                category: "Hepatites",
+                icon: "droplets"
+            },
+            {
+                id: 10,
+                title: "Inconsistências: Hepatites Virais",
+                description: "Indicadores de qualidade de dados nos municípios brasileiros.",
+                url: "http://indicadores.aids.gov.br/", 
+                category: "Qualidade de Dados",
+                icon: "file-question"
+            },
+            {
+                id: 11,
+                title: "Inconsistências: Sífilis Adquirida",
+                description: "Monitoramento de erros ou falhas de notificação (Municípios).",
+                url: "http://indicadores.aids.gov.br/",
+                category: "Qualidade de Dados",
+                icon: "file-search"
+            },
+            {
+                id: 12,
+                title: "Inconsistências: Sífilis Congênita",
+                description: "Dados de qualidade sobre sífilis em recém-nascidos.",
+                url: "http://indicadores.aids.gov.br/",
+                category: "Qualidade de Dados",
+                icon: "file-search"
+            },
+            {
+                id: 13,
+                title: "Inconsistências: Sífilis em Gestantes",
+                description: "Monitoramento de notificações em gestantes.",
+                url: "http://indicadores.aids.gov.br/",
+                category: "Qualidade de Dados",
+                icon: "file-search"
+            },
+            {
+                id: 14,
+                title: "PORTAL PAINÉIS - CONASEMS",
+                description: "Portal de Painéis de Apoio à Gestão Municipal.",
+                url: "https://paineis.conasems.org.br/",
+                category: "Gestão",
+                icon: "map-pin-house"
+            }
+        ];
+
+        // State
+        let activeCategory = 'Todos';
+        let searchTerm = '';
+        const categories = ['Todos', ...new Set(panels.map(p => p.category))];
+
+        // Elements
+        const gridEl = document.getElementById('panelsGrid');
+        const categoriesEl = document.getElementById('categoryContainer');
+        const emptyStateEl = document.getElementById('emptyState');
+        const searchInput = document.getElementById('searchInput');
+        const yearEl = document.getElementById('year');
+
+        // Initial Render
+        yearEl.textContent = new Date().getFullYear();
+
+        // Helper to render Icons with softer colors
+        // FUNÇÃO ATUALIZADA PARA GERAR NOVOS ESTILOS DE ÍCONE/GRADIENTE
+        function getIconStyles(category) {
+            // Alterado para rounded-full (totalmente circular) para ficar mais "fofinho"
+            const baseContainer = "h-16 w-16 rounded-full flex items-center justify-center shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all duration-300";
+            const baseIconClass = "text-white drop-shadow-sm";
+            
+            let bgGradient = "";
+
+            // Define gradients based on category groups
+            if (category === 'Gestão') {
+                bgGradient = "bg-gradient-to-br from-orange-400 to-amber-500";
+            } else if (category === 'Materno-Infantil') {
+                bgGradient = "bg-gradient-to-br from-pink-400 to-rose-500";
+            } else if (category === 'HIV/AIDS' || category === 'Hepatites') {
+                bgGradient = "bg-gradient-to-br from-purple-400 to-indigo-500";
+            } else if (category === 'Mortalidade') {
+                bgGradient = "bg-gradient-to-br from-red-400 to-red-600";
+            } else {
+                // Default (Tuberculose, Imunização, Qualidade de Dados, etc.)
+                bgGradient = "bg-gradient-to-br from-blue-400 to-cyan-600";
+            }
+
+            return {
+                container: `${baseContainer} ${bgGradient}`,
+                iconClass: baseIconClass
+            };
+        }
+
+        // Render Functions
+        function renderCategories() {
+            categoriesEl.innerHTML = categories.map(cat => `
+                <button 
+                    onclick="setCategory('${cat}')"
+                    class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${
+                        activeCategory === cat 
+                        ? 'bg-blue-600 text-white shadow-md shadow-blue-600/20 transform scale-105' 
+                        : 'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 hover:text-slate-800 shadow-sm'
+                    }"
+                >
+                    ${cat}
+                </button>
+            `).join('');
+        }
+
+        function renderGrid() {
+            const filtered = panels.filter(panel => {
+                const matchesSearch = panel.title.toLowerCase().includes(searchTerm.toLowerCase()) || 
+                                      panel.description.toLowerCase().includes(searchTerm.toLowerCase());
+                const matchesCategory = activeCategory === 'Todos' || panel.category === activeCategory;
+                return matchesSearch && matchesCategory;
+            });
+
+            if (filtered.length === 0) {
+                gridEl.innerHTML = '';
+                emptyStateEl.classList.remove('hidden');
+            } else {
+                emptyStateEl.classList.add('hidden');
+                gridEl.innerHTML = filtered.map(panel => {
+                    // Usando a nova função de estilos
+                    const iconStyles = getIconStyles(panel.category);
+                    // Determinando a cor da borda no hover baseado no gradiente (simplificado)
+                    let hoverBorder = panel.category === 'Gestão' ? 'hover:border-orange-300/50' : 
+                                      panel.category === 'Materno-Infantil' ? 'hover:border-pink-300/50' :
+                                      (panel.category === 'HIV/AIDS' || panel.category === 'Hepatites') ? 'hover:border-purple-300/50' :
+                                      panel.category === 'Mortalidade' ? 'hover:border-red-300/50' : 
+                                      'hover:border-blue-300/50';
+
+                    return `
+                    <div 
+                        onclick="window.open('${panel.url}', '_blank')"
+                        class="bg-white rounded-[2rem] shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-slate-100/80 p-6 hover:shadow-[0_16px_32px_rgba(0,0,0,0.1)] hover:-translate-y-1 ${hoverBorder} transition-all duration-300 cursor-pointer group flex flex-col h-full relative overflow-hidden"
+                    >
+                        <div class="flex items-start justify-between mb-6">
+                            <!-- NOVO CONTAINER DO ÍCONE -->
+                            <div class="${iconStyles.container}">
+                                <i data-lucide="${panel.icon}" class="${iconStyles.iconClass}" width="30" height="30" stroke-width="2.5"></i>
+                            </div>
+                            
+                            <div class="p-2.5 rounded-full bg-slate-50 text-slate-300 group-hover:text-blue-500 group-hover:bg-blue-50 transition-colors duration-300">
+                                <i data-lucide="external-link" width="20" height="20"></i>
+                            </div>
+                        </div>
+                        
+                        <h3 class="font-bold text-slate-900 text-[1.25rem] mb-3 leading-tight group-hover:text-blue-600 transition-colors">
+                            ${panel.title}
+                        </h3>
+                        
+                        <p class="text-slate-600 font-medium text-[0.95rem] leading-relaxed mb-6 flex-grow">
+                            ${panel.description}
+                        </p>
+                        
+                        <div class="mt-auto pt-5 border-t border-slate-100 flex justify-between items-center">
+                            <span class="text-xs font-bold px-3 py-1.5 bg-slate-100 text-slate-700 rounded-full uppercase tracking-wider">
+                                ${panel.category}
+                            </span>
+                            <span class="text-sm font-bold text-blue-600 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5">
+                                Acessar <span class="text-lg leading-none group-hover:translate-x-1 transition-transform">&rarr;</span>
+                            </span>
+                        </div>
+                    </div>
+                `}).join('');
+                
+                // Re-initialize icons for new elements
+                lucide.createIcons();
+            }
+        }
+
+        // Actions
+        window.setCategory = (cat) => {
+            activeCategory = cat;
+            renderCategories();
+            renderGrid();
+        };
+
+        searchInput.addEventListener('input', (e) => {
+            searchTerm = e.target.value;
+            renderGrid();
+        });
+
+        // Initialize
+        renderCategories();
+        renderGrid();
+        lucide.createIcons();
+
+    </script>
+</body>
+</html>
