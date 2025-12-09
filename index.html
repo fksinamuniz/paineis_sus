@@ -1,85 +1,11 @@
-<!DOCTYPE html>
-<html lang="pt-BR">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Portal de Painéis SUS</title>
-    
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <script src="https://unpkg.com/lucide@latest"></script>
+// Converter cada painel para Base64:
+const panelData = {
+  id: 1,
+  title: "Painel de Tuberculose",
+  description: "Descrição aqui",
+  category: "Tuberculose",
+  url: "https://link.com",
+  icon: "#color"
+};
 
-    <style>
-        .transition-all {
-            transition-property: all;
-            transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-            transition-duration: 300ms;
-        }
-        body {
-            background-color: #f8fafc;
-            background-image: radial-gradient(#e2e8f0 1px, transparent 1px);
-            background-size: 24px 24px;
-        }
-    </style>
-</head>
-<body class="font-sans text-slate-900 min-h-screen flex flex-col">
-
-    <header class="bg-gradient-to-r from-blue-800 to-blue-600 text-white shadow-lg relative z-10">
-        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-            <div class="flex flex-col md:flex-row justify-between items-center gap-4">
-                <div class="flex items-center gap-3">
-                    <div class="bg-white/20 p-3 rounded-2xl backdrop-blur-sm shadow-inner">
-                        <i data-lucide="layout-grid" width="32" height="32" class="text-white"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-3xl font-bold tracking-tight text-white">Portal de Painéis SUS</h1>
-                        <p class="text-blue-100 text-sm mt-1 font-medium">Central de Monitoramento e Inteligência de Dados</p>
-                    </div>
-                </div>
-                
-                <div class="w-full md:w-auto relative group">
-                    <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-blue-300 w-5 h-5 group-focus-within:text-blue-200 transition-colors"></i>
-                    <input 
-                        type="text" 
-                        id="searchInput"
-                        placeholder="Buscar painel..." 
-                        class="w-full md:w-80 pl-10 pr-4 py-2.5 rounded-full bg-blue-900/40 border border-blue-500/30 text-white placeholder-blue-300 focus:outline-none focus:ring-2 focus:ring-white/40 focus:bg-blue-900/60 transition-all shadow-sm"
-                    >
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <main class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-10 flex-grow w-full z-0">
-        
-        <div id="categoryContainer" class="flex flex-wrap gap-2 mb-10 justify-center md:justify-start">
-        </div>
-
-        <div id="panelsGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-8">
-        </div>
-
-        <div id="emptyState" class="hidden text-center py-20">
-            <div class="flex justify-center mb-4">
-                <div class="p-4 bg-slate-100 rounded-full">
-                    <i data-lucide="file-bar-chart" class="text-slate-400 w-12 h-12"></i>
-                </div>
-            </div>
-            <h3 class="text-xl font-semibold text-slate-700">Nenhum painel encontrado</h3>
-            <p class="text-slate-500 mt-2">Tente ajustar sua busca ou mudar a categoria selecionada.</p>
-        </div>
-
-    </main>
-
-    <footer class="border-t border-slate-200/60 bg-white/80 backdrop-blur-sm mt-auto">
-        <div class="max-w-7xl mx-auto px-4 py-8 text-center text-slate-500 text-sm">
-            <p class="font-medium mb-1">© <span id="year"></span> - Central Integradora de Painéis de Saúde Pública</p>
-            <p class="mb-4 text-slate-600">Desenvolvido por <strong class="text-slate-800">Frank Sinatra da Silva Muniz</strong></p>
-            <p class="text-xs text-slate-400 max-w-2xl mx-auto">Os links redirecionam para portais oficiais do Ministério da Saúde e parceiros. Este é um portal agregador para facilitar o acesso à informação.</p>
-        </div>
-    </footer>
-
-    <script>
-        const _0x4e9a=['innerHTML','flex items-center justify-center','to-blue-600','text-white','map','bg-gradient-to-br from-red-400 to-red-600','open','blue-600','bg-gradient-to-br from-orange-400 to-amber-500','text-slate-800','remove','shadow-md','getFullYear','from-blue-800','.group-hover\\:translate-y-0','querySelectorAll','.group-hover\\:opacity-100','transform','join','toLowerCase','includes','lucide','filter','length','add','to-cyan-600','createIcons','log','border','slice','set','classList','bg-gradient-to-br from-purple-400 to-indigo-500','value','getElementById','target','bg-gradient-to-br from-pink-400 to-rose-500','startsWith','shadow-blue-600/20','split','scale-105','bg-blue-600','forEach','replace','call','bg-gradient-to-br from-blue-400 to-cyan-600','style','round','now','push','textContent','data-lucide','input'];const _0x18e8=function(_0x469e9f,_0x307d82){_0x469e9f=_0x469e9f-0x0;let _0x4e9a7d=_0x4e9a[_0x469e9f];return _0x4e9a7d;};(function(_0x31c3e7,_0x1649e1){const _0x4aed1a=_0x18e8;while(!![]){try{const _0x5e41f0=parseInt(_0x4aed1a(0x0))*parseInt(_0x4aed1a(0x1))+parseInt(_0x4aed1a(0x2))*-parseInt(_0x4aed1a(0x3))+-parseInt(_0x4aed1a(0x4))+parseInt(_0x4aed1a(0x5))*parseInt(_0x4aed1a(0x6))+-parseInt(_0x4aed1a(0x7))*-parseInt(_0x4aed1a(0x8))+-parseInt(_0x4aed1a(0x9))+parseInt(_0x4aed1a(0xa))*-parseInt(_0x4aed1a(0xb));if(_0x5e41f0===_0x1649e1)break;else _0x31c3e7['push'](_0x31c3e7['shift']());}catch(_0x5a122b){_0x31c3e7['push'](_0x31c3e7['shift']());}}}(_0x4e9a,0x244a8));const panels=[{'id':0x1,'title':'Painel de Tuberculose','description':'Dados epidemiológicos\x20e\x20operacionais\x20da\x20tuberculose\x20no\x20Brasil\x20(SVSA).','url':'https://www.gov.br/saude/pt-br/composicao/svsa/cnie/painel-tuberculose','category':'Tuberculose','icon':'stethoscope'},{'id':0xf,'title':'Vacinação\x20-\x20Calendário\x20Nacional','description':'Monitoramento\x20da\x20vacinação\x20conforme\x20Calendário\x20Nacional\x20(Residência).','url':'https://infoms.saude.gov.br/extensions/SEIDIGI_DEMAS_VACINACAO_CALENDARIO_NACIONAL_RESIDENCIA/SEIDIGI_DEMAS_VACINACAO_CALENDARIO_NACIONAL_RESIDENCIA.html','category':'Imunização','icon':'shield-check'},{'id':0x11,'title':'Painel\x20Poliomielite\x202024','description':'Monitoramento\x20da\x20Campanha\x20Nacional\x20de\x20Vacinação\x20contra\x20a\x20Poliomielite.','url':'https://infoms.saude.gov.br/extensions/SEIDIGI_DEMAS_POLIOMIELITE_2024/SEIDIGI_DEMAS_POLIOMIELITE_2024.html','category':'Imunização','icon':'baby'},{'id':0x12,'title':'Painel\x20Maternidades\x202020','description':'Prevenção\x20da\x20transmissão\x20vertical\x20de\x20HIV,\x20Hepatite\x20B\x20e\x20Sífilis\x20em\x20maternidades.','url':'https://app.powerbi.com/view?r=eyJrIjoiZWZiZTEyZTQtMmM3OC00ZDc2LWFkZTEtODU1NWYxMWQ4ZjYzIiwidCI6IjllZGM3Y2M2LTcyMWMtNDIwYi1iYWUxLTY5ZTQ1OGYyNDQ1NSJ9&pageName=ReportSectiona45f16999ed19b267634','category':'HIV/AIDS','icon':'baby'},{'id':0x10,'title':'Mortalidade\x20CID-10','description':'Painel\x20de\x20Monitoramento\x20da\x20Mortalidade\x20(DAENT/SVSA).','url':'https://svs.aids.gov.br/daent/centrais-de-conteudos/paineis-de-monitoramento/mortalidade/cid10/','category':'Mortalidade','icon':'heart-pulse'},{'id':0x13,'title':'Mortalidade\x20Materna','description':'Painel\x20de\x20Monitoramento\x20da\x20Mortalidade\x20Materna\x20(DAENT/SVSA).','url':'https://svs.aids.gov.br/daent/centrais-de-conteudos/paineis-de-monitoramento/mortalidade/materna/','category':'Mortalidade','icon':'heart-crack'},{'id':0x2,'title':'Monitoramento\x20Integrado\x20HIV/AIDS','description':'Indicadores\x20do\x20Cuidado\x20Contínuo\x20do\x20HIV\x20e\x20da\x20Aids\x20(Power\x20BI).','url':'http://antigo.aids.gov.br/pt-br/pub/painel-de-monitoramento-integrado-do-cuidado-do-hiv-e-da-aids-0','category':'HIV/AIDS','icon':'heart-handshake'},{'id':0x3,'title':'Profilaxia\x20Pré-Exposição\x20(PrEP)','description':'Monitoramento\x20da\x20dispensação\x20e\x20uso\x20da\x20PrEP\x20no\x20Brasil.','url':'http://antigo.aids.gov.br/pt-br/painel-prep','category':'HIV/AIDS','icon':'pill'},{'id':0x4,'title':'Profilaxia\x20Pós-Exposição\x20(PEP)','description':'Dados\x20sobre\x20atendimentos\x20e\x20dispensação\x20de\x20PEP.','url':'http://antigo.aids.gov.br/pt-br/painel-pep','category':'HIV/AIDS','icon':'pill'},{'id':0x5,'title':'HIV\x20durante\x20a\x20Pandemia\x20COVID-19','description':'Impacto\x20da\x20pandemia\x20nos\x20indicadores\x20de\x20HIV/AIDS.','url':'http://antigo.aids.gov.br/pt-br/painel-covid-hiv','category':'HIV/AIDS','icon':'virus'},{'id':0x6,'title':'Autoteste\x20HIV','description':'Distribuição\x20e\x20resultados\x20de\x20autotestes\x20de\x20HIV.','url':'http://antigo.aids.gov.br/pt-br/pub/2021/painel-de-autoteste-de-hiv','category':'HIV/AIDS','icon':'flask-conical'},{'id':0x7,'title':'Monitoramento\x20Clínico\x20de\x20HIV','description':'Indicadores\x20e\x20dados\x20básicos\x20de\x20acompanhamento\x20clínico.','url':'http://indicadoresclinicos.aids.gov.br/','category':'HIV/AIDS','icon':'clipboard-heart'},{'id':0x8,'title':'Estratégia\x20Viva\x20Melhor\x20Sabendo\x20(VMS)','description':'Monitoramento\x20das\x20ações\x20de\x20testagem\x20e\x20diagnóstico.','url':'http://antigo.aids.gov.br/pt-br/pub/2017/painel-viva-melhor-sabendo','category':'HIV/AIDS','icon':'star'},{'id':0x9,'title':'Monitoramento\x20de\x20Hepatites\x20B\x20e\x20C','description':'Vigilância\x20epidemiológica\x20das\x20hepatites\x20virais.','url':'http://antigo.aids.gov.br/pt-br/pub/painel-de-monitoramento-de-hepatites-virais','category':'Hepatites','icon':'droplets'},{'id':0xa,'title':'Inconsistências:\x20Hepatites\x20Virais','description':'Indicadores\x20de\x20qualidade\x20de\x20dados\x20nos\x20municípios\x20brasileiros.','url':'http://indicadores.aids.gov.br/','category':'Qualidade\x20de\x20Dados','icon':'file-question'},{'id':0xb,'title':'Inconsistências:\x20Sífilis\x20Adquirida','description':'Monitoramento\x20de\x20erros\x20ou\x20falhas\x20de\x20notificação\x20(Municípios).','url':'http://indicadores.aids.gov.br/','category':'Qualidade\x20de\x20Dados','icon':'file-search'},{'id':0xc,'title':'Inconsistências:\x20Sífilis\x20Congênita','description':'Dados\x20de\x20qualidade\x20sobre\x20sífilis\x20em\x20recém-nascidos.','url':'http://indicadores.aids.gov.br/','category':'Qualidade\x20de\x20Dados','icon':'file-search'},{'id':0xd,'title':'Inconsistências:\x20Sífilis\x20em\x20Gestantes','description':'Monitoramento\x20de\x20notificações\x20em\x20gestantes.','url':'http://indicadores.aids.gov.br/','category':'Qualidade\x20de\x20Dados','icon':'file-search'},{'id':0xe,'title':'PORTAL\x20PAINÉIS\x20-\x20CONASEMS','description':'Portal\x20de\x20Painéis\x20de\x20Apoio\x20à\x20Gestão\x20Municipal.','url':'https://paineis.conasems.org.br/','category':'Gestão','icon':'map-pin-house'}];let activeCategory='Todos';let searchTerm='';const categories=['Todos',...new Set(panels['map'](_0x53c2d2=>_0x53c2d2['category']))];const gridEl=document[_0x18e8(0x20)]('panelsGrid');const categoriesEl=document[_0x18e8(0x20)]('categoryContainer');const emptyStateEl=document[_0x18e8(0x20)]('emptyState');const searchInput=document[_0x18e8(0x20)]('searchInput');const yearEl=document[_0x18e8(0x20)]('year');yearEl[_0x18e8(0x21)]=new Date()[_0x18e8(0x22)]();function getIconStyles(_0x1c9d86){const _0x487cb3='h-16 w-16 rounded-full flex items-center justify-center shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all duration-300';const _0x4b1749='text-white drop-shadow-sm';let _0x5d438a='';if(_0x1c9d86==='Gestão')_0x5d438a=_0x18e8(0x23);else if(_0x1c9d86==='Materno-Infantil')_0x5d438a=_0x18e8(0x24);else if(_0x1c9d86==='HIV/AIDS'||_0x1c9d86==='Hepatites')_0x5d438a=_0x18e8(0x25);else if(_0x1c9d86==='Mortalidade')_0x5d438a=_0x18e8(0x26);else _0x5d438a=_0x18e8(0x27);return{'container':`${_0x487cb3} ${_0x5d438a}`,'iconClass':_0x4b1749};}function renderCategories(){const _0x142b78=categories[_0x18e8(0x28)](_0x49c92c=>{const _0x53c4bb=activeCategory===_0x49c92c?`${_0x18e8(0x29)} ${_0x18e8(0x2a)} ${_0x18e8(0x2b)} ${_0x18e8(0x2c)} ${_0x18e8(0x2d)}`:'bg-white text-slate-600 border border-slate-200 hover:bg-slate-50 hover:border-slate-300 hover:text-slate-800 shadow-sm';return`\x3cbutton onclick="window.setCategory('${_0x49c92c}')" class="px-5 py-2.5 rounded-full text-sm font-semibold transition-all duration-200 ${_0x53c4bb}"\x3e${_0x49c92c}\x3c/button\x3e`;})[_0x18e8(0x2e)]('');categoriesEl[_0x18e8(0x2f)]=_0x142b78;}function renderGrid(){const _0x37741c=panels[_0x18e8(0x30)](_0x1aadd3=>{const _0x4f07f5=_0x1aadd3['title'][_0x18e8(0x31)]()[_0x18e8(0x32)](searchTerm[_0x18e8(0x31)]())||_0x1aadd3['description'][_0x18e8(0x31)]()[_0x18e8(0x32)](searchTerm[_0x18e8(0x31)]());const _0x163034=activeCategory==='Todos'||_0x1aadd3['category']===activeCategory;return _0x4f07f5&&_0x163034;});if(_0x37741c[_0x18e8(0x33)]===0x0){gridEl[_0x18e8(0x2f)]='';emptyStateEl[_0x18e8(0x34)][_0x18e8(0x35)]('hidden');}else{emptyStateEl[_0x18e8(0x34)][_0x18e8(0x36)]('hidden');gridEl[_0x18e8(0x2f)]=_0x37741c[_0x18e8(0x28)](_0x2d79b3=>{const _0x39f56d=getIconStyles(_0x2d79b3['category']);let _0x1a20fe=_0x2d79b3['category']==='Gestão'?'hover:border-orange-300/50':_0x2d79b3['category']==='Materno-Infantil'?'hover:border-pink-300/50':_0x2d79b3['category']==='HIV/AIDS'||_0x2d79b3['category']==='Hepatites'?'hover:border-purple-300/50':_0x2d79b3['category']==='Mortalidade'?'hover:border-red-300/50':'hover:border-blue-300/50';return`\x3cdiv onclick="window.open('${_0x2d79b3['url']}', '_blank')" class="bg-white rounded-[2rem] shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-slate-100/80 p-6 hover:shadow-[0_16px_32px_rgba(0,0,0,0.1)] hover:-translate-y-1 ${_0x1a20fe} transition-all duration-300 cursor-pointer group flex flex-col h-full relative overflow-hidden"\x3e\x3cdiv class="flex items-start justify-between mb-6"\x3e\x3cdiv class="${_0x39f56d['container']}"\x3e\x3ci data-lucide="${_0x2d79b3['icon']}" class="${_0x39f56d['iconClass']}" width="30" height="30" stroke-width="2.5"\x3e\x3c/i\x3e\x3c/div\x3e\x3cdiv class="p-2.5 rounded-full bg-slate-50 text-slate-300 group-hover:text-blue-500 group-hover:bg-blue-50 transition-colors duration-300"\x3e\x3ci data-lucide="external-link" width="20" height="20"\x3e\x3c/i\x3e\x3c/div\x3e\x3c/div\x3e\x3ch3 class="font-bold text-slate-900 text-[1.25rem] mb-3 leading-tight group-hover:text-blue-600 transition-colors"\x3e${_0x2d79b3['title']}\x3c/h3\x3e\x3cp class="text-slate-600 font-medium text-[0.95rem] leading-relaxed mb-6 flex-grow"\x3e${_0x2d79b3['description']}\x3c/p\x3e\x3cdiv class="mt-auto pt-5 border-t border-slate-100 flex justify-between items-center"\x3e\x3cspan class="text-xs font-bold px-3 py-1.5 bg-slate-100 text-slate-700 rounded-full uppercase tracking-wider"\x3e${_0x2d79b3['category']}\x3c/span\x3e\x3cspan class="text-sm font-bold text-blue-600 opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 flex items-center gap-1.5"\x3eAcessar \x3cspan class="text-lg leading-none group-hover:translate-x-1 transition-transform"\x3e→\x3c/span\x3e\x3c/span\x3e\x3c/div\x3e\x3c/div\x3e`;})[_0x18e8(0x2e)]('');window[_0x18e8(0x37)][_0x18e8(0x38)]();}}window['setCategory']=function(_0x365c65){activeCategory=_0x365c65;renderCategories();renderGrid();};searchInput[_0x18e8(0x39)]('input',_0x5c75e2=>{searchTerm=_0x5c75e2[_0x18e8(0x3a)][_0x18e8(0x3b)];renderGrid();});renderCategories();renderGrid();window[_0x18e8(0x37)][_0x18e8(0x38)]();
-    </script>
-</body>
-</html>
+const encrypted = btoa(JSON.stringify(panelData));
