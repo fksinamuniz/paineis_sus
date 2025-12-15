@@ -250,7 +250,7 @@
                 id: 14,
                 title: "PORTAL PAINÉIS - CONASEMS",
                 description: "Portal de Painéis de Apoio à Gestão Municipal.",
-                url: "https://paineis.conasems.org.br/",
+                url: "https://paineis.conasems.org.br/panorama/150553/PARAUAPEBAS/cit",
                 category: "Gestão",
                 icon: "map-pin-house"
             },
@@ -261,6 +261,22 @@
                 url: "https://www.gov.br/saude/pt-br/composicao/svsa/cnie/dados-populacionais-para-analises-de-saude",
                 category: "Gestão",
                 icon: "users-round"
+            },
+            {
+                id: 23,
+                title: "Produção SUS Consolidada",
+                description: "Relatório consolidado da produção ambulatorial (SIA) e hospitalar (SIH) do SUS.",
+                url: "https://controleavaliacao.saude.gov.br/painel/producao-consolidada.html",
+                category: "Gestão",
+                icon: "clipboard-list"
+            },
+            {
+                id: 22,
+                title: "Painel Oncologia - TabnetBD",
+                description: "Monitoramento do tempo até o início do tratamento oncológico no SUS (Tabnet).",
+                url: "http://tabnet.datasus.gov.br/cgi/dhdat.exe?PAINEL_ONCO/PAINEL_ONCOLOGIABR.def",
+                category: "Oncologia",
+                icon: "microscope"
             }
         ];
 
@@ -297,6 +313,8 @@
                 bgGradient = "bg-gradient-to-br from-purple-400 to-indigo-500";
             } else if (category === 'Mortalidade') {
                 bgGradient = "bg-gradient-to-br from-red-400 to-red-600";
+            } else if (category === 'Oncologia') {
+                bgGradient = "bg-gradient-to-br from-teal-400 to-emerald-600";
             } else {
                 // Default (Tuberculose, Imunização, Qualidade de Dados, etc.)
                 bgGradient = "bg-gradient-to-br from-blue-400 to-cyan-600";
@@ -345,6 +363,7 @@
                                       panel.category === 'Materno-Infantil' ? 'hover:border-pink-300/50' :
                                       (panel.category === 'HIV/AIDS' || panel.category === 'Hepatites') ? 'hover:border-purple-300/50' :
                                       panel.category === 'Mortalidade' ? 'hover:border-red-300/50' : 
+                                      panel.category === 'Oncologia' ? 'hover:border-teal-300/50' :
                                       'hover:border-blue-300/50';
 
                     return `
