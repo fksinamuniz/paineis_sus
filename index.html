@@ -296,6 +296,14 @@
                 category: "Gestão",
                 icon: "file-pie-chart"
             },
+            {
+                id: 37,
+                title: "SIOPS - Orçamentos Públicos",
+                description: "Sistema de Informações sobre Orçamentos Públicos em Saúde (Página Principal).",
+                url: "https://www.gov.br/saude/pt-br/acesso-a-informacao/siops",
+                category: "Gestão",
+                icon: "landmark"
+            },
             // --- SISTEMAS E INFORMAÇÕES ---
             {
                 id: 23,
@@ -370,6 +378,14 @@
                 category: "Cursos e Especializações",
                 icon: "book-open-check"
             },
+            {
+                id: 36,
+                title: "AVASUS",
+                description: "Ambiente Virtual de Aprendizagem do SUS. Conhecimento livre e aberto em saúde.",
+                url: "https://avasus.ufrn.br/",
+                category: "Cursos e Especializações",
+                icon: "monitor-play"
+            },
             // --- LINHA DE CUIDADO ---
             {
                 id: 35,
@@ -378,6 +394,15 @@
                 url: "https://linhasdecuidado.saude.gov.br/portal/todas-linhas",
                 category: "Linha de Cuidado",
                 icon: "heart-handshake"
+            },
+            // --- LEGISLAÇÃO ---
+            {
+                id: 38,
+                title: "Legislação Básica do SUS",
+                description: "Constituição Federal, Leis Orgânicas da Saúde (8.080/90 e 8.142/90) e normas estruturantes (BVS MS).",
+                url: "https://bvsms.saude.gov.br/legislacao-basica-do-sus/",
+                category: "Legislação",
+                icon: "scale"
             }
         ];
 
@@ -416,6 +441,8 @@
                 bgGradient = "bg-gradient-to-br from-yellow-400 to-orange-500";
             } else if (category === 'Linha de Cuidado') {
                 bgGradient = "bg-gradient-to-br from-rose-400 to-pink-600";
+            } else if (category === 'Legislação') {
+                bgGradient = "bg-gradient-to-br from-slate-500 to-slate-700";
             } else {
                 // Default fallback
                 bgGradient = "bg-gradient-to-br from-blue-400 to-cyan-600";
@@ -465,6 +492,7 @@
                                       panel.category === 'Sistemas e Informações' ? 'hover:border-indigo-300/50' :
                                       panel.category === 'Cursos e Especializações' ? 'hover:border-yellow-300/50' :
                                       panel.category === 'Linha de Cuidado' ? 'hover:border-rose-300/50' :
+                                      panel.category === 'Legislação' ? 'hover:border-slate-400/50' :
                                       'hover:border-blue-300/50';
 
                     return `
