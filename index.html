@@ -369,6 +369,15 @@
                 url: "https://cursos.campusvirtual.fiocruz.br/",
                 category: "Cursos e Especializações",
                 icon: "book-open-check"
+            },
+            // --- LINHA DE CUIDADO ---
+            {
+                id: 35,
+                title: "Consulte todas as linhas de cuidado",
+                description: "Protocolos, fluxos e diretrizes terapêuticas para o cuidado integral no SUS.",
+                url: "https://linhasdecuidado.saude.gov.br/portal/todas-linhas",
+                category: "Linha de Cuidado",
+                icon: "heart-handshake"
             }
         ];
 
@@ -405,6 +414,8 @@
                 bgGradient = "bg-gradient-to-br from-indigo-500 to-purple-600";
             } else if (category === 'Cursos e Especializações') {
                 bgGradient = "bg-gradient-to-br from-yellow-400 to-orange-500";
+            } else if (category === 'Linha de Cuidado') {
+                bgGradient = "bg-gradient-to-br from-rose-400 to-pink-600";
             } else {
                 // Default fallback
                 bgGradient = "bg-gradient-to-br from-blue-400 to-cyan-600";
@@ -453,6 +464,7 @@
                                       panel.category === 'Vigilância em Saúde' ? 'hover:border-emerald-300/50' :
                                       panel.category === 'Sistemas e Informações' ? 'hover:border-indigo-300/50' :
                                       panel.category === 'Cursos e Especializações' ? 'hover:border-yellow-300/50' :
+                                      panel.category === 'Linha de Cuidado' ? 'hover:border-rose-300/50' :
                                       'hover:border-blue-300/50';
 
                     return `
