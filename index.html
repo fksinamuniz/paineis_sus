@@ -411,6 +411,15 @@
                 url: "https://bvsms.saude.gov.br/legislacao-basica-do-sus/",
                 category: "Legislação",
                 icon: "scale"
+            },
+            // --- PUBLICAÇÕES ---
+            {
+                id: 40,
+                title: "Publicações – Fapespa",
+                description: "Estudos, relatórios, notas técnicas e publicações da Fundação Amazônia de Amparo a Estudos e Pesquisas.",
+                url: "https://www.fapespa.pa.gov.br/publicacoes",
+                category: "Publicações",
+                icon: "library"
             }
         ];
 
@@ -430,9 +439,7 @@
         yearEl.textContent = new Date().getFullYear();
 
         // Helper to render Icons with softer colors
-        // FUNÇÃO ATUALIZADA PARA GERAR NOVOS ESTILOS DE ÍCONE/GRADIENTE
         function getIconStyles(category) {
-            // Alterado para rounded-full (totalmente circular) para ficar mais "fofinho"
             const baseContainer = "h-16 w-16 rounded-full flex items-center justify-center shadow-md group-hover:shadow-xl group-hover:scale-105 transition-all duration-300";
             const baseIconClass = "text-white drop-shadow-sm";
             
@@ -451,6 +458,8 @@
                 bgGradient = "bg-gradient-to-br from-rose-400 to-pink-600";
             } else if (category === 'Legislação') {
                 bgGradient = "bg-gradient-to-br from-slate-500 to-slate-700";
+            } else if (category === 'Publicações') {
+                bgGradient = "bg-gradient-to-br from-violet-400 to-fuchsia-600";
             } else {
                 // Default fallback
                 bgGradient = "bg-gradient-to-br from-blue-400 to-cyan-600";
@@ -492,15 +501,15 @@
             } else {
                 emptyStateEl.classList.add('hidden');
                 gridEl.innerHTML = filtered.map(panel => {
-                    // Usando a nova função de estilos
                     const iconStyles = getIconStyles(panel.category);
-                    // Determinando a cor da borda no hover baseado no gradiente (simplificado)
+                    
                     let hoverBorder = panel.category === 'Gestão' ? 'hover:border-orange-300/50' : 
                                       panel.category === 'Vigilância em Saúde' ? 'hover:border-emerald-300/50' :
                                       panel.category === 'Sistemas e Informações' ? 'hover:border-indigo-300/50' :
                                       panel.category === 'Cursos e Especializações' ? 'hover:border-yellow-300/50' :
                                       panel.category === 'Linha de Cuidado' ? 'hover:border-rose-300/50' :
                                       panel.category === 'Legislação' ? 'hover:border-slate-400/50' :
+                                      panel.category === 'Publicações' ? 'hover:border-violet-300/50' :
                                       'hover:border-blue-300/50';
 
                     return `
@@ -509,7 +518,7 @@
                         class="bg-white rounded-[2rem] shadow-[0_2px_12px_rgba(0,0,0,0.04)] border border-slate-100/80 p-6 hover:shadow-[0_16px_32px_rgba(0,0,0,0.1)] hover:-translate-y-1 ${hoverBorder} transition-all duration-300 cursor-pointer group flex flex-col h-full relative overflow-hidden"
                     >
                         <div class="flex items-start justify-between mb-6">
-                            <!-- NOVO CONTAINER DO ÍCONE -->
+                            <!-- CONTAINER DO ÍCONE -->
                             <div class="${iconStyles.container}">
                                 <i data-lucide="${panel.icon}" class="${iconStyles.iconClass}" width="30" height="30" stroke-width="2.5"></i>
                             </div>
