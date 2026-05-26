@@ -38,7 +38,12 @@
                     </div>
                     <div>
                         <h1 class="text-3xl font-bold tracking-tight text-white">Portal de Painéis SUS</h1>
-                        <p class="text-blue-100 text-sm mt-1 font-medium">Central de Monitoramento e Inteligência de Dados</p>
+                        <p class="text-blue-100 text-sm mt-1 font-medium flex items-center gap-2">
+                            Central de Monitoramento e Inteligência de Dados
+                            <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold bg-blue-900/50 text-blue-100 border border-blue-400/30 shadow-sm">
+                                <span id="totalPanelsBadge">0</span>&nbsp;painéis
+                            </span>
+                        </p>
                     </div>
                 </div>
                 
@@ -461,6 +466,14 @@
                 url: "https://www.gov.br/saude/pt-br/composicao/sgtes/mais-medicos/painel",
                 category: "Gestão",
                 icon: "user-plus"
+            },
+            {
+                id: 46,
+                title: "SUS 360",
+                description: "Visão integrada de indicadores estratégicos e dados unificados do Sistema Único de Saúde.",
+                url: "https://sus360.saude.gov.br/",
+                category: "Gestão",
+                icon: "layers"
             }
         ];
 
@@ -475,9 +488,11 @@
         const emptyStateEl = document.getElementById('emptyState');
         const searchInput = document.getElementById('searchInput');
         const yearEl = document.getElementById('year');
+        const totalPanelsBadge = document.getElementById('totalPanelsBadge');
 
         // Initial Render
         yearEl.textContent = new Date().getFullYear();
+        totalPanelsBadge.textContent = panels.length;
 
         // Helper to render Icons with softer colors
         function getIconStyles(category) {
