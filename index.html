@@ -482,6 +482,15 @@
                 url: "https://sus360.saude.gov.br/",
                 category: "Gestão",
                 icon: "layers"
+            },
+            // --- PROJETOS ARQUITETÔNICOS ---
+            {
+                id: 48,
+                title: "Projetos Arquitetônicos (Novo PAC)",
+                description: "Projetos arquitetônicos de referência para obras da saúde no âmbito do Novo PAC.",
+                url: "https://www.gov.br/saude/pt-br/assuntos/novo-pac-saude/projetos-arquitetonicos",
+                category: "Projetos Arquitetônicos",
+                icon: "ruler"
             }
         ];
 
@@ -524,6 +533,8 @@
                 bgGradient = "bg-gradient-to-br from-slate-500 to-slate-700";
             } else if (category === 'Publicações') {
                 bgGradient = "bg-gradient-to-br from-violet-400 to-fuchsia-600";
+            } else if (category === 'Projetos Arquitetônicos') {
+                bgGradient = "bg-gradient-to-br from-sky-400 to-indigo-500";
             } else {
                 // Default fallback
                 bgGradient = "bg-gradient-to-br from-blue-400 to-cyan-600";
@@ -574,6 +585,7 @@
                                       panel.category === 'Linha de Cuidado' ? 'hover:border-rose-300/50' :
                                       panel.category === 'Legislação' ? 'hover:border-slate-400/50' :
                                       panel.category === 'Publicações' ? 'hover:border-violet-300/50' :
+                                      panel.category === 'Projetos Arquitetônicos' ? 'hover:border-sky-300/50' :
                                       'hover:border-blue-300/50';
 
                     return `
